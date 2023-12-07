@@ -36,7 +36,7 @@ export default function Header() {
                         <div className='h-[30px]'>
                             <BridgeworldHelper />
                         </div>
-                        <h1 className={`text-2xl tracking-wide text-gray-800 font-bold ${rubik.semiBold}`}>Bridgeworld Helper</h1>
+                        <h1 className={`text-2xl tracking-wide text-gray-800 font-bold ${rubik.semiBold}`}>Bridgeworld Help</h1>
                     </button>
                 </Link>
                 <IsSubscribed>

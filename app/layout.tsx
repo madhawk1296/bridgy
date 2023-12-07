@@ -7,7 +7,7 @@ import Wallet from './Wallet'
 import Header from './Header'
 
 export const metadata: Metadata = {
-  title: 'Bridgeworld Helper',
+  title: 'Bridgeworld Help',
   description: 'Everything you need to navigate Bridgeworld and help you earn $MAGIC',
 }
 
