@@ -1,6 +1,6 @@
 import { ChangeEvent, ReactNode } from "react";
 
-export default function Select({ children, value, onChange }: { children: ReactNode, value: string | number, onChange: ((value: string) => void) | ((value: number) => void) }) {
+export default function Select({ children, value, onChange }: { children: ReactNode, value: string | number, onChange: (value: any) => void }) {
     const handleChange = (e: ChangeEvent<HTMLSelectElement>) => {
         onChange(e.target.value)
     }

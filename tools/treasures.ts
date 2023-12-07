@@ -1,4 +1,6 @@
-export function getRegionalTreasures(treasures: any, region: string) {
+import { ItemType } from "@/types/item"
+
+export function getRegionalTreasures(treasures: ItemType[], region: string) {
     // exclude grin and honeycomb treasures
     const filteredTreasures = treasures.filter(treasure => treasure.id !== "0xebba467ecb6b21239178033189ceae27ca12eadf-95" && treasure.id !== "0xebba467ecb6b21239178033189ceae27ca12eadf-97")
     
@@ -12,7 +14,7 @@ export function getRegionalTreasures(treasures: any, region: string) {
     }
 }
 
-export function getTreasureTiers(treasures: any) {
+export function getTreasureTiers(treasures: ItemType[]) {
     const treasureTiers = []
 
     for (let i =1; i < 6; i++) {

@@ -4,9 +4,10 @@ import masterOfInflation from "@/data/abis/masterOfInflation.json"
 import { callFunction } from "@/clients/alchemy"
 import Web3 from "web3"
 import { getRegionalTreasures, getTreasureTiers } from "./treasures"
+import { ItemType } from "@/types/item"
 
 
-export function calculateQuest(items: any, timeframe: string, legions: number, legionType: string, legionRarity: string, region: string, constellation: number, questLevel: number, questPart: number, cardsFlipped: number, corruptCardsUnflipped: number,  corruption: number, dropRates: {tier: number, dropRate: number}[]) {
+export function calculateQuest(items: ItemType[], timeframe: string, legions: number, legionType: string, legionRarity: string, region: string, constellation: number, questLevel: number, questPart: number, cardsFlipped: number, corruptCardsUnflipped: number,  corruption: number, dropRates: {tier: number, dropRate: number}[]) {
     const consumables = items.filter(item => item.collection == "consumables")
     const treasures = items.filter(item => item.collection == "treasures")
 
@@ -43,7 +44,7 @@ function getCorruptCardsStasisHours(corruptCardsUnflipped: number, corruption: n
 function getStasisHours(constellation: number, questPart: number, corruption: number) {
     const corruptionStasis = getCorruptionExtraHours(corruption)
 
-    const constellationReduction = {
+    const constellationReduction: Record<number, number> = {
         0: 0,
         1: .04,
         2: .06,
@@ -96,22 +97,22 @@ function getQuestValue(consumables: any, treasures: any, dropRates: {tier: numbe
     return fragment + treasure + essence + shard + lock
 }
 
-function getLockValue(consumables: any) {
-    const lockPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-10").price
+function getLockValue(consumables: ItemType[]) {
+    const lockPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-10")!.price
     const probability = .00001
 
     return lockPrice * probability
 }
 
-function getShardValue(consumables: any, questPart: number) {
-    const shardPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9").price
+function getShardValue(consumables: ItemType[], questPart: number) {
+    const shardPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price
     const amount = questPart === 1 ? 1 : questPart === 2 ? 2 : questPart === 3 ? 3 : 0
 
     return shardPrice * amount
 }
 
-function getEssenceValue(consumables: any, questPart: number) {
-    const essencePrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-8").price
+function getEssenceValue(consumables: ItemType[], questPart: number) {
+    const essencePrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-8")!.price
     const amount = questPart === 1 ? 1 : questPart === 2 ? 2 : questPart === 3 ? 3 : 0
 
     return essencePrice * amount
@@ -145,10 +146,10 @@ function getAverageFragmentValue(fragments: any, questDifficulty: number) {
     return questDifficulty === 1 ? .15 * fragments[3] + .85 * fragments[4] : questDifficulty === 2 ? .2 * fragments[2] + .3 * fragments[3] + .5 * fragments[4] : questDifficulty === 3 ? .05 * fragments[0] + .1 * fragments[1] + .45 * fragments[2] + .4 * fragments[3] : 0 
 }
 
-function getFragmentTiers(treasures: any, consumables: any) {
-    const prismShardsPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9").price
+function getFragmentTiers(treasures: ItemType[], consumables: ItemType[]) {
+    const prismShardsPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price
 
-    const fragmentTiers = {}
+    const fragmentTiers:Record<number, number> = {}
 
     for (let i =1; i < 6; i++) {
         // get prism shards used based on tier
@@ -224,7 +225,7 @@ export async function getDropRates(corruption: number): Promise<{ tier: number, 
 
     const encoded = inter.encodeFunctionData(functionName, [poolArgs])
     const response = await callFunction(process.env.MASTER_OF_INFLATION_ADDRESS!, encoded)
-    const decoded = inter.decodeFunctionResult(functionName, response)[0]
+    const decoded = inter.decodeFunctionResult(functionName, response)[0] as string[]
     return decoded.map((data, index) => {
         return {
             tier: index + 1, 

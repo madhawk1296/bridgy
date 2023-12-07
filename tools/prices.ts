@@ -1,5 +1,6 @@
 import { supabaseServerClient } from "@/clients/supabase";
 import listings from "@/queries/listings";
+import { ItemType, ListingType } from "@/types/item";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import Web3 from "web3";
 
@@ -27,12 +28,12 @@ export async function getPrices() {
 
     return items?.map(item => {
         const collection = item.contract.toLowerCase() == process.env.CONSUMABLES_ADDRESS ? "consumables" : "treasures"
-        const collectionListings = collection == "consumables" ? currentListings.consumables.listings : currentListings.treasures.listings
+        const collectionListings: ListingType[] = collection == "consumables" ? currentListings.consumables.listings : currentListings.treasures.listings
         const itemListings = collectionListings.filter(listing => listing.token.id.toLowerCase() == item.id.toLowerCase())
-        const lowestPrice = itemListings.reduce((minPrice: number, listing) => {
+        const lowestPrice = itemListings.reduce((minPrice, listing) => {
             const price = BigInt(listing.pricePerItem)
             return price < minPrice ? price : minPrice;
-        }, BigInt(BigInt(itemListings[0].pricePerItem)));
+        }, BigInt(itemListings[0].pricePerItem));
         const price = Number(Web3.utils.fromWei(lowestPrice, "ether"))
 
         return {...item, price}

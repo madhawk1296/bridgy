@@ -1,6 +1,7 @@
+import { ItemType } from "@/types/item"
 import { hoursPer } from "./time"
 
-export function calculateCraft(items: any, timeframe: string, legions: number, craft: string, replace: boolean, corruption: number) {
+export function calculateCraft(items: ItemType[], timeframe: string, legions: number, craft: string, replace: boolean, corruption: number) {
     const consumables = items.filter(item => item.collection == "consumables")
     const treasures = items.filter(item => item.collection == "treasures")
 
@@ -25,15 +26,15 @@ export function calculateCraft(items: any, timeframe: string, legions: number, c
     }
 }
 
-function getCraftValue(consumables: any, craft: string) {
+function getCraftValue(consumables: ItemType[], craft: string) {
     if(craft == "prism") {
         const smallPrismProbability = 0.9
         const mediumPrismProbability = 0.09
         const largePrismProbability = 0.01
 
-        const smallPrismPrice = consumables.find(consumable => consumable.token_id === 1).price
-        const mediumPrismPrice = consumables.find(consumable => consumable.token_id === 2).price
-        const largePrismPrice = consumables.find(consumable => consumable.token_id === 3).price
+        const smallPrismPrice = consumables.find(consumable => consumable.token_id === 1)!.price
+        const mediumPrismPrice = consumables.find(consumable => consumable.token_id === 2)!.price
+        const largePrismPrice = consumables.find(consumable => consumable.token_id === 3)!.price
 
         return smallPrismPrice * smallPrismProbability + mediumPrismPrice * mediumPrismProbability + largePrismPrice * largePrismProbability
     } else {
@@ -41,9 +42,9 @@ function getCraftValue(consumables: any, craft: string) {
         const mediumExtractorProbability = 0.15
         const largeExtractorProbability = 0.1
     
-        const smallExtractorPrice = consumables.find(consumable => consumable.token_id === 4).price
-        const mediumExtractorPrice = consumables.find(consumable => consumable.token_id === 5).price
-        const largeExtractorPrice = consumables.find(consumable => consumable.token_id === 6).price
+        const smallExtractorPrice = consumables.find(consumable => consumable.token_id === 4)!.price
+        const mediumExtractorPrice = consumables.find(consumable => consumable.token_id === 5)!.price
+        const largeExtractorPrice = consumables.find(consumable => consumable.token_id === 6)!.price
     
         return smallExtractorPrice * smallExtractorProbability + mediumExtractorPrice * mediumExtractorProbability + largeExtractorPrice * largeExtractorProbability
     }
@@ -67,7 +68,7 @@ function getBrokenTreasures(treasures: any[], craft: string, corruption: number)
         }
     }
 
-    return Object.entries(treasuresPerCraft[craft]).reduce((totalCost, [tier, treasureAmount]) => {
+    return Object.entries(treasuresPerCraft[craft as "prism" | "booster"]).reduce((totalCost, [tier, treasureAmount]) => {
         const tierFloor = Math.min(...treasures.filter(treasure => treasure.tier == Number(tier)).map(treasure => treasure.price))
         const cost  = tierFloor * getTreasureBreakRate(Number(tier), corruption) * treasureAmount
 
@@ -107,6 +108,6 @@ export function corruptionIncrease(corruption: number) {
 }
 
 function getCraftsPerTimeframe(craft: string, timeframe: string) {
-    const craftHours = craft == "prism" ? 23.5 : 47.5
+    const craftHours = craft == "prism" ? 12 : 24
     return hoursPer(timeframe) / craftHours
 }
