@@ -7,17 +7,17 @@ import {
   RainbowKitProvider,
 } from '@rainbow-me/rainbowkit';
 import { configureChains, createConfig, WagmiConfig } from 'wagmi';
-import { arbitrumSepolia } from 'wagmi/chains';
+import { arbitrum } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import SubscribeModal from "./SubscribeModal";
 
 const { chains, publicClient } = configureChains(
-    [arbitrumSepolia],
+    [arbitrum],
     [publicProvider()]
 );
 
 const { connectors } = getDefaultWallets({
-    appName: 'Bridgeworld Helper',
+    appName: 'Bridgeworld Help',
     projectId: '953d814f70f02d82ecdb051c082c52e6',
     chains
   });
