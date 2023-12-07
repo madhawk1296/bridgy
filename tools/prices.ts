@@ -1,0 +1,41 @@
+import { supabaseServerClient } from "@/clients/supabase";
+import listings from "@/queries/listings";
+import { ApolloClient, InMemoryCache } from "@apollo/client";
+import Web3 from "web3";
+
+const apolloClient = new ApolloClient({
+    uri: process.env.TREASURE_MARKETPLACE_SUBGRAPH,
+    ssrMode: true,
+    cache: new InMemoryCache(),
+});
+
+export async function getPrices() {
+    // get current time in seconds
+    const currentTime = Math.floor(Date.now() / 1000)
+
+    const currentListings = (await apolloClient.query({
+        query: listings, 
+        variables: { 
+            currentTime,
+            consumablesAddress: process.env.CONSUMABLES_ADDRESS,
+            treasuresAddress: process.env.TREASURES_ADDRESS
+        }
+    }).then(r => r.data))
+
+    const supabase = supabaseServerClient()
+    const { data: items, error } = await supabase.from("items").select()
+
+    return items?.map(item => {
+        const collection = item.contract.toLowerCase() == process.env.CONSUMABLES_ADDRESS ? "consumables" : "treasures"
+        const collectionListings = collection == "consumables" ? currentListings.consumables.listings : currentListings.treasures.listings
+        const itemListings = collectionListings.filter(listing => listing.token.id.toLowerCase() == item.id.toLowerCase())
+        const lowestPrice = itemListings.reduce((minPrice: number, listing) => {
+            const price = BigInt(listing.pricePerItem)
+            return price < minPrice ? price : minPrice;
+        }, BigInt(BigInt(itemListings[0].pricePerItem)));
+        const price = Number(Web3.utils.fromWei(lowestPrice, "ether"))
+
+        return {...item, price}
+    })
+
+}
