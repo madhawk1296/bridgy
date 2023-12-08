@@ -8,6 +8,8 @@ import Header from './Header'
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/tools/auth'
 import Head from 'next/head'
+import { Analytics } from '@vercel/analytics/react';
+
 
 export const metadata: Metadata = {
   title: 'Bridgeworld Help',
@@ -20,7 +22,6 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions);
-  console.log(session)
 
   return (
     <html className='relative w-screen h-screen overflow-x-hidden overflow-y-scroll' lang="en">
@@ -29,6 +30,7 @@ export default async function RootLayout({
           <Header />
           {children}
         </Providers>
+        <Analytics />
       </body>
     </html>
   )
