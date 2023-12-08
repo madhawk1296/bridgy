@@ -161,8 +161,6 @@ function getFragmentTiers(treasures: ItemType[], consumables: ItemType[]) {
         const treasureTierLength = treasureTier.length
         const averageTreasureTier = treasureTier.reduce((currentTotal, treasure) => currentTotal + treasure.price, 0) / treasureTierLength
 
-        console.log({tier: i, treasureTier})
-
         // get fragment value based on tier
         const averageFragmentTier = (averageTreasureTier - prismShardsCost) / 12
         

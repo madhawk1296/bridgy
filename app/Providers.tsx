@@ -35,7 +35,7 @@ export default function Providers({ children, session }: { children: ReactNode, 
   
     return (
         <WagmiConfig config={wagmiConfig}>
-          <SessionProvider refetchInterval={0} session={session}>
+          <SessionProvider refetchInterval={200} session={session}>
             <RainbowKitSiweNextAuthProvider>
               <RainbowKitProvider chains={chains}>
                 <SubscribeModal>
