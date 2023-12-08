@@ -21,10 +21,12 @@ export default function Wallet() {
             openAccountModal,
             openChainModal,
             openConnectModal,
+            authenticationStatus,
             mounted,
         }) => {
-            const ready = mounted;
-            const connected = ready && account && chain;
+            const ready = mounted && authenticationStatus !== 'loading';
+            const connected = ready && account && chain && (!authenticationStatus ||
+                authenticationStatus === 'authenticated');;
 
             return (
             <div>
