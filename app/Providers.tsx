@@ -10,6 +10,9 @@ import { configureChains, createConfig, WagmiConfig } from 'wagmi';
 import { arbitrum } from 'wagmi/chains';
 import { publicProvider } from 'wagmi/providers/public';
 import SubscribeModal from "./SubscribeModal";
+import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
+import { SessionProvider } from 'next-auth/react';
+
 
 const { chains, publicClient } = configureChains(
     [arbitrum],
@@ -28,14 +31,19 @@ const { connectors } = getDefaultWallets({
     publicClient
   })
 
-export default function Providers({ children }: { children: ReactNode}) {
+export default function Providers({ children, session }: { children: ReactNode, session: any}) {
+  
     return (
         <WagmiConfig config={wagmiConfig}>
-            <RainbowKitProvider chains={chains}>
-              <SubscribeModal>
-                {children}
-              </SubscribeModal>
-            </RainbowKitProvider>
+          <SessionProvider refetchInterval={0} session={session}>
+            <RainbowKitSiweNextAuthProvider>
+              <RainbowKitProvider chains={chains}>
+                <SubscribeModal>
+                  {children}
+                </SubscribeModal>
+              </RainbowKitProvider>
+            </RainbowKitSiweNextAuthProvider>
+          </SessionProvider>
         </WagmiConfig>
     )
 }
