@@ -25,8 +25,7 @@ export default function Wallet() {
             mounted,
         }) => {
             const ready = mounted && authenticationStatus !== 'loading';
-            const connected = ready && account && chain && (!authenticationStatus ||
-                authenticationStatus === 'authenticated');;
+            const connected = ready && account && chain && (!authenticationStatus || authenticationStatus === 'authenticated');;
 
             return (
             <div>
