@@ -3,6 +3,8 @@ import { ItemType } from "@/types/item"
 export function getRegionalTreasures(treasures: ItemType[], region: string) {
     // exclude grin and honeycomb treasures
     const filteredTreasures = treasures.filter(treasure => treasure.id !== "0xebba467ecb6b21239178033189ceae27ca12eadf-95" && treasure.id !== "0xebba467ecb6b21239178033189ceae27ca12eadf-97")
+
+    return filteredTreasures
     
     // return treasures from chosen region
     if(region == "corrupt_canyons") {

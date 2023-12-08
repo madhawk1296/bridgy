@@ -69,7 +69,8 @@ function getBrokenTreasures(treasures: any[], craft: string, corruption: number)
     }
 
     return Object.entries(treasuresPerCraft[craft as "prism" | "booster"]).reduce((totalCost, [tier, treasureAmount]) => {
-        const tierFloor = Math.min(...treasures.filter(treasure => treasure.tier == Number(tier)).map(treasure => treasure.price))
+        const tierFloor = Math.min(...treasures.filter(treasure => treasure.tier == Number(tier) && treasure.listed).map(treasure => treasure.price))
+        console.log({tier, tierFloor})
         const cost  = tierFloor * getTreasureBreakRate(Number(tier), corruption) * treasureAmount
 
         return totalCost + cost

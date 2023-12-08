@@ -30,13 +30,17 @@ export async function getPrices() {
         const collection = item.contract.toLowerCase() == process.env.CONSUMABLES_ADDRESS ? "consumables" : "treasures"
         const collectionListings: ListingType[] = collection == "consumables" ? currentListings.consumables.listings : currentListings.treasures.listings
         const itemListings = collectionListings.filter(listing => listing.token.id.toLowerCase() == item.id.toLowerCase())
-        const lowestPrice = itemListings.reduce((minPrice, listing) => {
-            const price = BigInt(listing.pricePerItem)
-            return price < minPrice ? price : minPrice;
-        }, BigInt(itemListings[0].pricePerItem));
-        const price = Number(Web3.utils.fromWei(lowestPrice, "ether"))
+        const listed = itemListings.length > 0
+        let price = 0
+        if(listed) {
+            const lowestPrice = itemListings.reduce((minPrice, listing) => {
+                const price = BigInt(listing.pricePerItem)
+                return price < minPrice ? price : minPrice;
+            }, BigInt(itemListings[0].pricePerItem));
+            price = Number(Web3.utils.fromWei(lowestPrice, "ether"))
+        }
 
-        return {...item, price}
+        return {...item, price, listed}
     })
 
 }

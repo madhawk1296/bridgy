@@ -6,7 +6,8 @@ export type ItemType = {
     name: string
     tier: number | null
     token_id: number
-    price: number
+    price: number,
+    listed: boolean
 }
 
 export type ListingType = {
