@@ -68,7 +68,7 @@ export default function SubscribeModal({ children}: { children: ReactNode }) {
             {menu && (
                 <div className="fixed w-screen h-screen top-0 left-0 flex items-end md:items-center justify-center z-20">
                     <div className="fixed top-0 left-0 w-screen h-screen bg-black opacity-50" onClick={toggleMenu} />
-                    <div className="relative w-full md:w-[400px] h-fit bg-white rounded-t-xl md:rounded-xl flex flex-col gap-10 pb-[100px] py-[15px] px-[25px] ">
+                    <div className="relative w-full md:w-[400px] h-fit bg-white rounded-t-xl md:rounded-xl flex flex-col gap-10 pb-[100px] md:pb-[15px] py-[15px] px-[25px] ">
                         <h1 className={`${rubik.semiBold} text-2xl text-gray-800 tracking-wide text-center`}>Buy Subscription</h1>
                         <div className="flex flex-col gap-4">
                             <div className='flex items-center justify-between text'>

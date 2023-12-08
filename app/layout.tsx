@@ -7,6 +7,7 @@ import Wallet from './Wallet'
 import Header from './Header'
 import { getServerSession } from 'next-auth';
 import { authOptions } from '@/tools/auth'
+import Head from 'next/head'
 
 export const metadata: Metadata = {
   title: 'Bridgeworld Help',
@@ -19,15 +20,16 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getServerSession(authOptions);
+  console.log(session)
 
   return (
     <html className='relative w-screen h-screen overflow-x-hidden overflow-y-scroll' lang="en">
-        <body className={`relative w-screen h-screen overflow-x-hidden overflow-y-scroll ${rubik.medium} pb-[80px] md:pb-0`}>
-          <Providers session={session}>
-            <Header />
-            {children}
-          </Providers>
-        </body>
+      <body className={`relative w-screen h-screen overflow-x-hidden overflow-y-scroll ${rubik.medium} pb-[80px] md:pb-0`}>
+        <Providers session={session}>
+          <Header />
+          {children}
+        </Providers>
+      </body>
     </html>
   )
 }
