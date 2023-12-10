@@ -15,7 +15,9 @@ export interface Database {
           collection: string
           contract: string
           id: string
+          listed: boolean
           name: string
+          price: number | null
           tier: number | null
           token_id: number
         }
@@ -24,7 +26,9 @@ export interface Database {
           collection?: string
           contract: string
           id: string
+          listed?: boolean
           name: string
+          price?: number | null
           tier?: number | null
           token_id: number
         }
@@ -33,7 +37,9 @@ export interface Database {
           collection?: string
           contract?: string
           id?: string
+          listed?: boolean
           name?: string
+          price?: number | null
           tier?: number | null
           token_id?: number
         }
