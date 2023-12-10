@@ -12,6 +12,8 @@ import { publicProvider } from 'wagmi/providers/public';
 import SubscribeModal from "./SubscribeModal";
 import { RainbowKitSiweNextAuthProvider } from '@rainbow-me/rainbowkit-siwe-next-auth';
 import { SessionProvider } from 'next-auth/react';
+import posthog from 'posthog-js'
+import { PostHogProvider } from 'posthog-js/react'
 
 
 const { chains, publicClient } = configureChains(
@@ -31,9 +33,16 @@ const { connectors } = getDefaultWallets({
     publicClient
   })
 
+  if (typeof window !== 'undefined') {
+    posthog.init(process.env.NEXT_PUBLIC_POSTHOG_KEY!, {
+      api_host: process.env.NEXT_PUBLIC_POSTHOG_HOST,
+    })
+  }
+
 export default function Providers({ children, session }: { children: ReactNode, session: any}) {
   
     return (
+      <PostHogProvider client={posthog}>
         <WagmiConfig config={wagmiConfig}>
           <SessionProvider refetchInterval={0} session={session}>
             <RainbowKitSiweNextAuthProvider>
@@ -45,5 +54,6 @@ export default function Providers({ children, session }: { children: ReactNode, 
             </RainbowKitSiweNextAuthProvider>
           </SessionProvider>
         </WagmiConfig>
+      </PostHogProvider>
     )
 }
