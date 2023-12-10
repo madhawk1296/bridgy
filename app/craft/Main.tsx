@@ -7,7 +7,7 @@ import getItems from "@/tools/items";
 export default async function Main() {
     const itemsData = getItems();
     const corruptionData = getCraftCorruption();
-
+ 
     const [items, corruption] = await Promise.all([itemsData, corruptionData])
     
     return (
