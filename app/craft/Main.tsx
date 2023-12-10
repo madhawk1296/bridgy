@@ -9,7 +9,7 @@ export default async function Main() {
     const corruptionData = getCraftCorruption();
 
     const [items, corruption] = await Promise.all([itemsData, corruptionData])
- 
+  
     return (
         <Container>
             <div className="flex flex-col gap-4 items-center">
