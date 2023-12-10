@@ -1,6 +1,6 @@
-import { supabaseServerClient } from "@/clients/supabase";
+import { supabaseAdminClient, supabaseServerClient } from "@/clients/supabase";
 import listings from "@/queries/listings";
-import { ItemType, ListingType } from "@/types/item";
+import { ListingType } from "@/types/item";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import Web3 from "web3";
 
@@ -26,7 +26,7 @@ export async function getPrices() {
     const supabase = supabaseServerClient()
     const { data: items, error } = await supabase.from("items").select()
 
-    return items?.map(item => {
+    return items!.map(item => {
         const collection = item.contract.toLowerCase() == process.env.CONSUMABLES_ADDRESS ? "consumables" : "treasures"
         const collectionListings: ListingType[] = collection == "consumables" ? currentListings.consumables.listings : currentListings.treasures.listings
         const itemListings = collectionListings.filter(listing => listing.token.id.toLowerCase() == item.id.toLowerCase())
@@ -42,5 +42,14 @@ export async function getPrices() {
 
         return {...item, price, listed}
     })
+}
 
+export async function updatePrices() {
+    const supbase = supabaseAdminClient()
+
+    const items = await getPrices()
+
+    items.forEach(async (item) => {
+        await supbase.from("items").update({ price: item.price, listed: item.listed }).eq("id", item.id)
+    })
 }

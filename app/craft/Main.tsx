@@ -1,11 +1,11 @@
 import rubik from "@/fonts/rubik";
 import Container from "../Container";
 import Craft from "./Craft";
-import { getPrices } from "@/tools/prices";
 import { getCraftCorruption } from "@/tools/corruption";
+import getItems from "@/tools/items";
 
 export default async function Main() {
-    const itemsData = getPrices();
+    const itemsData = getItems();
     const corruptionData = getCraftCorruption();
 
     const [items, corruption] = await Promise.all([itemsData, corruptionData])

@@ -1,12 +1,12 @@
 import rubik from "@/fonts/rubik";
 import Container from "../Container";
-import { getPrices } from "@/tools/prices";
-import { getCraftCorruption, getQuestCorruption } from "@/tools/corruption";
+import { getQuestCorruption } from "@/tools/corruption";
 import Quest from "./Quest";
 import { getDropRates } from "@/tools/quest";
+import getItems from "@/tools/items";
 
 export default async function Main() {
-    const itemsData = getPrices();
+    const itemsData = getItems();
     const corruptionData = getQuestCorruption();
     const [items, corruption] = await Promise.all([itemsData, corruptionData])
     const dropRates = await getDropRates(corruption);
