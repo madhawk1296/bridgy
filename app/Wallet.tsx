@@ -11,6 +11,7 @@ import { useAccount } from 'wagmi'
 export default function Wallet() {
     const { address } = useAccount()
     const { data, error } = useSWR(`/api/balance/${address}`, fetcher)
+
     const magicBalance: number = data?.data || 0
 
     return (

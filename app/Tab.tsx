@@ -1,12 +1,13 @@
 import Home from "@/components/icons/Home";
 import Potion from "@/components/icons/Potion";
+import Scythe from "@/components/icons/Scythe";
 import Sword from "@/components/icons/Sword";
 import rubik from "@/fonts/rubik";
 import Link from "next/link";
 import { ReactNode } from "react";
 
 export default function Tab({ title, link, iconName, selected }: { title: string, link: string, iconName: string, selected: boolean}) {
-    const icon = iconName == "quest" ? <Sword selected={selected} /> : iconName == "craft" ? <Potion selected={selected} /> : <Home selected={selected} />
+    const icon = iconName == "quest" ? <Sword selected={selected} /> : iconName == "craft" ? <Potion selected={selected} /> : iconName == "harvesters" ? <Scythe selected={selected} /> : <Home selected={selected} />
 
     return (
         <Link href={link}>

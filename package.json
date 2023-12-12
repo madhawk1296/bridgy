@@ -18,6 +18,7 @@
     "@supabase/ssr": "^0.0.10",
     "@vercel/analytics": "^1.1.1",
     "alchemy-sdk": "^3.0.0",
+    "bn.js": "^5.2.1",
     "ethers": "^6.9.0",
     "i": "^0.3.7",
     "moment": "^2.29.4",
@@ -35,6 +36,7 @@
     "web3-eth": "^4.3.1"
   },
   "devDependencies": {
+    "@types/bn.js": "^5.1.5",
     "@types/node": "^20",
     "@types/numeral": "^2.0.5",
     "@types/react": "^18",
