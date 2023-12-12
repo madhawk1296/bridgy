@@ -10,9 +10,13 @@ import numeral from "numeral";
 import Select from "../Select";
 import Option from "../Option";
 import Input from "../Input";
-import { calculateQuest, getCorruptionDropRate } from "@/tools/quest";
+import { calculateQuest, getCorruptionDropRate, getTotalQuestHours } from "@/tools/quest";
+import Corruption from "../Corruption";
+import Clock from "@/components/icons/Clock";
+import Time from "../Time";
 
 export default function Quest({ items, corruption, dropRates }: { items: any, corruption: number, dropRates: {tier: number, dropRate: number}[] }) {
+    const [displayCorruption, setDisplayCorruption] = useState(corruption)
     const [timeframe, setTimeframe] = useState("each")
     const [legions, setLegions] = useState(1)
     const [legionType, setLegionType] = useState("auxiliary")
@@ -23,9 +27,19 @@ export default function Quest({ items, corruption, dropRates }: { items: any, co
     const [questPart, setQuestPart] = useState(1)
     const [cardsFlipped, setCardFlipped] = useState(0)
     const [corruptCardsUnflipped, setCorruptCardsUnflipped] = useState(0)
+    const isDefault = corruption == displayCorruption
+    const time = getTotalQuestHours(questPart, constellation, legionType, displayCorruption, corruptCardsUnflipped)
 
-    const { revenue, cost, profit } = calculateQuest(items, timeframe, legions, legionType, legionRarity, region, constellation, questLevel, questPart, cardsFlipped, corruptCardsUnflipped,  corruption, dropRates)
-    const corruptionDropRate = getCorruptionDropRate(corruption)
+    const { revenue, cost, profit } = calculateQuest(items, timeframe, legions, legionType, legionRarity, region, constellation, questLevel, questPart, cardsFlipped, corruptCardsUnflipped,  displayCorruption, dropRates)
+    const corruptionDropRate = getCorruptionDropRate(displayCorruption)
+
+    const changeCorruption = (event: Event, value: number | number[], activeThumb: number) => {
+        setDisplayCorruption(value as number)
+    }
+
+    const resetCorruption = () => {
+        setDisplayCorruption(corruption)
+    }
 
     const changeTime = (value: string) => {
         setTimeframe(value)
@@ -72,19 +86,16 @@ export default function Quest({ items, corruption, dropRates }: { items: any, co
     }
 
     return (
-        <>
+        <div className="w-full flex flex-col py-[80px] gap-4 items-center px-[10px]">
             <div className="relative w-full md:w-fit flex flex-col gap-6">
-                <div className="w-full md:w-[484px] h-fit border-2 border-purple-300 shadow-md rounded-xl flex flex-col gap-1 p-[10px]">
-                    <h1 className={`${rubik.medium} text-purple-600 text-center`}>Corruption</h1>
-                    <h1 className={`${rubik.medium} text-gray-800 text-3xl text-center`}>{numeral(corruption).format("0,0.0a")}</h1>
-                    <h1 className={`${rubik.medium} text-purple-600 text-center`}>{corruptionDropRate >= 0 && "+"}{numeral(corruptionDropRate).format("0%")} Drop Rate</h1>
-                </div>
+                <Corruption corruption={displayCorruption} changeCorruption={changeCorruption} resetCorruption={resetCorruption} isDefault={isDefault} detail={`${corruptionDropRate >= 0 ? "+" : ""}${numeral(corruptionDropRate).format("0%")} Drop Rate`} />
                 <div className="flex items-center gap-4">
                     <AnswerDetail answer={revenue} title="Revenue" color="blue" />
                     <AnswerDetail answer={cost} title="Cost" color="red"  />
                     <AnswerDetail answer={profit} title="Profit" color="green"  />
                 </div>
             </div>
+            <Time title="Quest Time:" hours={time} />
             <div className="w-full md:w-[500px] h-fit border-2 rounded-xl shadow-md flex flex-col gap-6 p-[20px]">
                 <Detail title="Timeframe" >
                     <Select value={timeframe} onChange={changeTime}>
@@ -169,6 +180,6 @@ export default function Quest({ items, corruption, dropRates }: { items: any, co
                     </>
                 )}
             </div>
-        </>
+        </ div>
     )
 }

@@ -8,8 +8,8 @@ import getItems from "@/tools/items";
 export default async function Main() {
     const itemsData = getItems();
     const corruptionData = getQuestCorruption();
-    const [items, corruption] = await Promise.all([itemsData, corruptionData])
-    const dropRates = await getDropRates(corruption);
+    const dropRatesData = getDropRates();
+    const [items, corruption, dropRates] = await Promise.all([itemsData, corruptionData, dropRatesData])
 
     return (
         <Container>

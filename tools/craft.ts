@@ -70,7 +70,6 @@ function getBrokenTreasures(treasures: any[], craft: string, corruption: number)
 
     return Object.entries(treasuresPerCraft[craft as "prism" | "booster"]).reduce((totalCost, [tier, treasureAmount]) => {
         const tierFloor = Math.min(...treasures.filter(treasure => treasure.tier == Number(tier) && treasure.listed).map(treasure => treasure.price))
-        console.log({tier, tierFloor})
         const cost  = tierFloor * getTreasureBreakRate(Number(tier), corruption) * treasureAmount
 
         return totalCost + cost
@@ -93,15 +92,15 @@ function getTreasureBreakRate(tier: number, corruption: number) {
 }
 
 export function corruptionIncrease(corruption: number) {
-    if (corruption > 600000) {
+    if (corruption >= 600000) {
         return .1;
-    } else if (corruption > 500000) {
+    } else if (corruption >= 500000) {
         return .08;
-    } else if (corruption > 400000) {
+    } else if (corruption >= 400000) {
         return .06;
-    } else if (corruption > 300000) {
+    } else if (corruption >= 300000) {
         return .04;
-    } else if (corruption > 200000) {
+    } else if (corruption >= 200000) {
         return .02;
     } else {
         return 0;
@@ -109,6 +108,10 @@ export function corruptionIncrease(corruption: number) {
 }
 
 function getCraftsPerTimeframe(craft: string, timeframe: string) {
-    const craftHours = craft == "prism" ? 12 : 24
+    const craftHours = getHoursPerCraft(craft)
     return hoursPer(timeframe) / craftHours
+}
+
+export function getHoursPerCraft(craft: string) {
+    return craft == "prism" ? 12 : 24
 }

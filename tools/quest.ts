@@ -12,11 +12,11 @@ export function calculateQuest(items: ItemType[], timeframe: string, legions: nu
     const treasures = items.filter(item => item.collection == "treasures")
 
     // revenue
-    const eachRevenue = getQuestValue(consumables, treasures, dropRates, legionType, legionRarity, region, questLevel, questPart, cardsFlipped)
+    const eachRevenue = getQuestValue(consumables, treasures, dropRates, legionType, legionRarity, region, questLevel, questPart, cardsFlipped, corruption)
 
     // crafts per timeframe
     const questsPerTimeframe = timeframe == "each" ? 1 : getQuestsPerTimeframe(timeframe, legionType, constellation, questPart, corruptCardsUnflipped, corruption)
-    
+
     return {
         revenue: eachRevenue * questsPerTimeframe * legions,
         cost: 0,
@@ -29,7 +29,7 @@ function getQuestsPerTimeframe(timeframe: string, legionType: string, constellat
     return hoursPer(timeframe) / totalQuestHours
 }
 
-function getTotalQuestHours(questPart: number, constellation: number, legionType: string, corruption: number, corruptCardsUnflipped: number) {
+export function getTotalQuestHours(questPart: number, constellation: number, legionType: string, corruption: number, corruptCardsUnflipped: number) {
     const questingHours = getQuestingHours(questPart, corruption)
     const statisHours = (legionType == "genesis" || questPart == 1) ? 0 : getStasisHours(constellation, questPart, corruption)
     const corruptStasisHours = (legionType == "genesis" || questPart != 3) ? 0 : getCorruptCardsStasisHours(corruptCardsUnflipped, corruption)
@@ -67,25 +67,25 @@ function getQuestingHours(questPart: number, corruption: number) {
 }
 
 function getCorruptionExtraHours(corruption: number) {
-    if (corruption > 100000) {
-        return 1
-    } else if (corruption > 200000) {
-        return 2
-    } else if (corruption > 300000) {
-        return 3
-    } else if (corruption > 400000) {
-        return 4
-    } else if (corruption > 500000) {
-        return 5
-    } else if (corruption > 600000) {
+    if (corruption >= 600000) {
         return 6
+    } else if (corruption >= 500000) {
+        return 5
+    } else if (corruption >= 400000) {
+        return 4
+    } else if (corruption >= 300000) {
+        return 3
+    } else if (corruption >= 200000) {
+        return 2
+    } else if (corruption >= 100000) {
+        return 1
     } else {
         return 0
     }
 }
 
-function getQuestValue(consumables: any, treasures: any, dropRates: {tier: number, dropRate: number}[], legionType: string, legionRarity: string, region: string, questLevel: number, questPart: number, cardsFlipped: number) {
-    const adjustedDropRates = getFragmentDropRates(dropRates, legionType, legionRarity, questLevel, questPart, cardsFlipped)
+function getQuestValue(consumables: any, treasures: any, dropRates: {tier: number, dropRate: number}[], legionType: string, legionRarity: string, region: string, questLevel: number, questPart: number, cardsFlipped: number, corruption: number) {
+    const adjustedDropRates = getFragmentDropRates(dropRates, legionType, legionRarity, questLevel, questPart, cardsFlipped, corruption)
     const regionalTreasures = getRegionalTreasures(treasures, region)
 
     const fragment = getFragmentValue(adjustedDropRates, regionalTreasures, questPart, consumables)
@@ -187,8 +187,9 @@ function getDropRateTier(dropRates: {tier: number, dropRate: number}[], tier: nu
     return dropRates.find(dropRate => dropRate.tier == tier)?.dropRate!
 }
 
-export default function getFragmentDropRates(dropRates: {tier: number, dropRate: number}[], legionType: string, legionRarity: string, questLevel: number, questPart: number, cardsFlipped: number): {tier: number, dropRate: number}[] {
+export default function getFragmentDropRates(dropRates: {tier: number, dropRate: number}[], legionType: string, legionRarity: string, questLevel: number, questPart: number, cardsFlipped: number, corruption: number): {tier: number, dropRate: number}[] {
     return dropRates.map(({ tier, dropRate }) => {
+        const corruptionDropRate = dropRate + dropRate * getCorruptionDropRate(corruption)
         const levelBonus = questLevel === 4 ? .05 : questLevel === 5 ? .1 : questLevel === 6 ? .15 : 0
 
         // if quest difficulty is 3, assign cards flipped bonus based on amount of cards flipped
@@ -205,22 +206,18 @@ export default function getFragmentDropRates(dropRates: {tier: number, dropRate:
     
         return {
             tier,
-            dropRate: dropRate * (1 + levelBonus + cardsFlippedBonus + genesisBonus)
+            dropRate: corruptionDropRate * (1 + levelBonus + cardsFlippedBonus + genesisBonus)
         }
     })
 }
 
-export async function getDropRates(corruption: number): Promise<{ tier: number, dropRate: number }[]> {
+export async function getDropRates(): Promise<{ tier: number, dropRate: number }[]> {
     const functionName = "chanceOfItemFromPools"
     const inter = ethersInterface(masterOfInflation)
 
     const poolIds = [1,2,3,4,5]
     const poolArgs = poolIds.map(poolId => {
-        const dropRate = getCorruptionDropRate(corruption) * 100000
-        const negative = dropRate < 0
-        const bonus = negative ? 0 : dropRate
-        const negativeBonus = negative ? Math.abs(dropRate) : 0  
-        return [poolId, 1, bonus, negativeBonus]
+        return [poolId, 1, 0, 0]
     })
 
     const encoded = inter.encodeFunctionData(functionName, [poolArgs])
