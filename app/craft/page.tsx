@@ -1,11 +1,11 @@
 import { updatePrices } from "@/tools/prices";
-import IsConnected from "../IsConnected";
 import IsSubscribed from "../IsSubscribed";
-import Landing from "../Landing";
 import Main from "./Main";
+import { updateCorruption } from "@/tools/buildings";
 
 export default async function Page() {
     updatePrices()
+    updateCorruption()
 
     return (
         <IsSubscribed> 

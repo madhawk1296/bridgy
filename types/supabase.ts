@@ -9,8 +9,39 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
+      buildings: {
+        Row: {
+          address: string
+          corruption: number
+          created_at: string
+          drop_rates: number[]
+          id: number
+          name: string
+          type: string | null
+        }
+        Insert: {
+          address: string
+          corruption: number
+          created_at?: string
+          drop_rates?: number[]
+          id?: number
+          name: string
+          type?: string | null
+        }
+        Update: {
+          address?: string
+          corruption?: number
+          created_at?: string
+          drop_rates?: number[]
+          id?: number
+          name?: string
+          type?: string | null
+        }
+        Relationships: []
+      }
       items: {
         Row: {
+          bid_price: number | null
           category: string | null
           collection: string
           contract: string
@@ -22,6 +53,7 @@ export interface Database {
           token_id: number
         }
         Insert: {
+          bid_price?: number | null
           category?: string | null
           collection?: string
           contract: string
@@ -33,6 +65,7 @@ export interface Database {
           token_id: number
         }
         Update: {
+          bid_price?: number | null
           category?: string | null
           collection?: string
           contract?: string

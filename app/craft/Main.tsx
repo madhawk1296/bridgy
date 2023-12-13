@@ -1,14 +1,15 @@
 import rubik from "@/fonts/rubik";
 import Container from "../Container";
 import Craft from "./Craft";
-import { getCraftCorruption } from "@/tools/corruption";
 import getItems from "@/tools/items";
+import getBuildings from "@/tools/buildings";
 
 export default async function Main() {
     const itemsData = getItems();
-    const corruptionData = getCraftCorruption();
+    const buildingsData = getBuildings();
  
-    const [items, corruption] = await Promise.all([itemsData, corruptionData])
+    const [items, buildings] = await Promise.all([itemsData, buildingsData])
+    const corruption = buildings!.find(building => building.type == "crafting")!.corruption || 0
     
     return (
         <Container>

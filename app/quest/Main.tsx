@@ -1,15 +1,23 @@
 import rubik from "@/fonts/rubik";
 import Container from "../Container";
-import { getQuestCorruption } from "@/tools/corruption";
 import Quest from "./Quest";
 import { getDropRates } from "@/tools/quest";
 import getItems from "@/tools/items";
+import getBuildings from "@/tools/buildings";
 
 export default async function Main() {
     const itemsData = getItems();
-    const corruptionData = getQuestCorruption();
-    const dropRatesData = getDropRates();
-    const [items, corruption, dropRates] = await Promise.all([itemsData, corruptionData, dropRatesData])
+    const buildingsData = getBuildings();
+    const [items, buildings] = await Promise.all([itemsData, buildingsData])
+    
+    const questing = buildings!.find(building => building.type == "questing")!
+    const corruption = questing.corruption || 0
+    const dropRates = questing.drop_rates.map((dropRate, index) => {
+        return {
+            tier: index + 1,
+            dropRate
+        }
+    })
 
     return (
         <Container>
