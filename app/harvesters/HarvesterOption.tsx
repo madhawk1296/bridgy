@@ -1,7 +1,7 @@
-import { Tables } from "@/types/tables";
+import { BuildingType } from "@/types/tables";
 import Link from "next/link";
 
-export default function HarvesterOption({ harvester, selected }: { harvester: Tables<"buildings">, selected: boolean}) {
+export default function HarvesterOption({ harvester, selected }: { harvester: BuildingType, selected: boolean}) {
     const { name, id } = harvester
     return (
         <Link href={`/harvesters/${id}`}>

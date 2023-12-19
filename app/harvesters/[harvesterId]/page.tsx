@@ -11,7 +11,7 @@ export default async function Page({ params: { harvesterId }}: { params: { harve
     const harvester = buildings!.find(building => building.id == harvesterId)
     return (
         <IsSubscribed>
-            <Harvester items={items!} harvester={harvester} />
+            <Harvester items={items!} harvester={harvester!} />
         </IsSubscribed>
     )
 }

@@ -32,9 +32,9 @@ function getCraftValue(consumables: ItemType[], craft: string) {
         const mediumPrismProbability = 0.09
         const largePrismProbability = 0.01
 
-        const smallPrismPrice = consumables.find(consumable => consumable.token_id === 1)!.price
-        const mediumPrismPrice = consumables.find(consumable => consumable.token_id === 2)!.price
-        const largePrismPrice = consumables.find(consumable => consumable.token_id === 3)!.price
+        const smallPrismPrice = consumables.find(consumable => consumable.token_id === 1)!.price!
+        const mediumPrismPrice = consumables.find(consumable => consumable.token_id === 2)!.price!
+        const largePrismPrice = consumables.find(consumable => consumable.token_id === 3)!.price!
 
         return smallPrismPrice * smallPrismProbability + mediumPrismPrice * mediumPrismProbability + largePrismPrice * largePrismProbability
     } else {
@@ -42,9 +42,9 @@ function getCraftValue(consumables: ItemType[], craft: string) {
         const mediumExtractorProbability = 0.15
         const largeExtractorProbability = 0.1
     
-        const smallExtractorPrice = consumables.find(consumable => consumable.token_id === 4)!.price
-        const mediumExtractorPrice = consumables.find(consumable => consumable.token_id === 5)!.price
-        const largeExtractorPrice = consumables.find(consumable => consumable.token_id === 6)!.price
+        const smallExtractorPrice = consumables.find(consumable => consumable.token_id === 4)!.price!
+        const mediumExtractorPrice = consumables.find(consumable => consumable.token_id === 5)!.price!
+        const largeExtractorPrice = consumables.find(consumable => consumable.token_id === 6)!.price!
     
         return smallExtractorPrice * smallExtractorProbability + mediumExtractorPrice * mediumExtractorProbability + largeExtractorPrice * largeExtractorProbability
     }

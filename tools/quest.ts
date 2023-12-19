@@ -4,7 +4,7 @@ import masterOfInflation from "@/data/abis/masterOfInflation.json"
 import { callFunction } from "@/clients/alchemy"
 import Web3 from "web3"
 import { getRegionalTreasures, getTreasureTiers } from "./treasures"
-import { ItemType } from "@/types/item"
+import { ItemType } from "@/types/tables"
 
 
 export function calculateQuest(items: ItemType[], timeframe: string, legions: number, legionType: string, legionRarity: string, region: string, constellation: number, questLevel: number, questPart: number, cardsFlipped: number, corruptCardsUnflipped: number,  corruption: number, dropRates: {tier: number, dropRate: number}[]) {
@@ -98,21 +98,21 @@ function getQuestValue(consumables: any, treasures: any, dropRates: {tier: numbe
 }
 
 function getLockValue(consumables: ItemType[]) {
-    const lockPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-10")!.price
+    const lockPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-10")!.price!
     const probability = .00001
 
     return lockPrice * probability
 }
 
 function getShardValue(consumables: ItemType[], questPart: number) {
-    const shardPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price
+    const shardPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price!
     const amount = questPart === 1 ? 1 : questPart === 2 ? 2 : questPart === 3 ? 3 : 0
 
     return shardPrice * amount
 }
 
 function getEssenceValue(consumables: ItemType[], questPart: number) {
-    const essencePrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-8")!.price
+    const essencePrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-8")!.price!
     const amount = questPart === 1 ? 1 : questPart === 2 ? 2 : questPart === 3 ? 3 : 0
 
     return essencePrice * amount
@@ -147,7 +147,7 @@ function getAverageFragmentValue(fragments: any, questDifficulty: number) {
 }
 
 function getFragmentTiers(treasures: ItemType[], consumables: ItemType[]) {
-    const prismShardsPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price
+    const prismShardsPrice = consumables.find(consumable => consumable.id === "0xF3d00A2559d84De7aC093443bcaAdA5f4eE4165C-9")!.price!
 
     const fragmentTiers:Record<number, number> = {}
 
@@ -159,7 +159,7 @@ function getFragmentTiers(treasures: ItemType[], consumables: ItemType[]) {
         // get treasure value based on tier
         const treasureTier = treasures.filter(treasure => treasure.tier === i && treasure.listed)
         const treasureTierLength = treasureTier.length
-        const averageTreasureTier = treasureTier.reduce((currentTotal, treasure) => currentTotal + treasure.price, 0) / treasureTierLength
+        const averageTreasureTier = treasureTier.reduce((currentTotal, treasure) => currentTotal + treasure.price!, 0) / treasureTierLength
 
         // get fragment value based on tier
         const averageFragmentTier = (averageTreasureTier - prismShardsCost) / 12

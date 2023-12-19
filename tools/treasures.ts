@@ -1,4 +1,4 @@
-import { ItemType } from "@/types/item"
+import { ItemType } from "@/types/tables"
 
 export function getRegionalTreasures(treasures: ItemType[], region: string) {
     // exclude grin and honeycomb treasures
@@ -22,7 +22,7 @@ export function getTreasureTiers(treasures: ItemType[]) {
     for (let i =1; i < 6; i++) {
         const treasureTier = treasures.filter(treasure => treasure.tier === i)
         const treasureTierLength = treasureTier.length
-        const averageTreasureTier = treasureTier.reduce((currentTotal, treasure) => currentTotal + treasure.price, 0) / treasureTierLength
+        const averageTreasureTier = treasureTier.reduce((currentTotal, treasure) => currentTotal + treasure.price!, 0) / treasureTierLength
         
         treasureTiers.push(averageTreasureTier)
     }

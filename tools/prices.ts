@@ -1,6 +1,6 @@
 import { supabaseAdminClient, supabaseServerClient } from "@/clients/supabase";
 import listings from "@/queries/listings";
-import { ItemType, ListingType } from "@/types/item";
+import { ListingType } from "@/types/item";
 import { ApolloClient, InMemoryCache } from "@apollo/client";
 import Web3 from "web3";
 
