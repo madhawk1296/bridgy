@@ -11,30 +11,51 @@ export interface Database {
     Tables: {
       buildings: {
         Row: {
+          active: boolean
           address: string
           corruption: number
           created_at: string
           drop_rates: number[]
+          emissions_per_second: number | null
           id: number
+          max_primaries: number | null
+          max_secondaries: number | null
           name: string
+          primaries_type: string | null
+          secondaries_type: string | null
+          total_lp: number | null
           type: string | null
         }
         Insert: {
+          active?: boolean
           address: string
           corruption: number
           created_at?: string
           drop_rates?: number[]
+          emissions_per_second?: number | null
           id?: number
+          max_primaries?: number | null
+          max_secondaries?: number | null
           name: string
+          primaries_type?: string | null
+          secondaries_type?: string | null
+          total_lp?: number | null
           type?: string | null
         }
         Update: {
+          active?: boolean
           address?: string
           corruption?: number
           created_at?: string
           drop_rates?: number[]
+          emissions_per_second?: number | null
           id?: number
+          max_primaries?: number | null
+          max_secondaries?: number | null
           name?: string
+          primaries_type?: string | null
+          secondaries_type?: string | null
+          total_lp?: number | null
           type?: string | null
         }
         Relationships: []
@@ -42,39 +63,54 @@ export interface Database {
       items: {
         Row: {
           bid_price: number | null
+          boost: number | null
           category: string | null
           collection: string
           contract: string
           id: string
+          image: string | null
           listed: boolean
           name: string
           price: number | null
+          rarity: string | null
           tier: number | null
-          token_id: number
+          token_id: number | null
+          type: string | null
+          weight: number | null
         }
         Insert: {
           bid_price?: number | null
+          boost?: number | null
           category?: string | null
           collection?: string
           contract: string
           id: string
+          image?: string | null
           listed?: boolean
           name: string
           price?: number | null
+          rarity?: string | null
           tier?: number | null
-          token_id: number
+          token_id?: number | null
+          type?: string | null
+          weight?: number | null
         }
         Update: {
           bid_price?: number | null
+          boost?: number | null
           category?: string | null
           collection?: string
           contract?: string
           id?: string
+          image?: string | null
           listed?: boolean
           name?: string
           price?: number | null
+          rarity?: string | null
           tier?: number | null
-          token_id?: number
+          token_id?: number | null
+          type?: string | null
+          weight?: number | null
         }
         Relationships: []
       }

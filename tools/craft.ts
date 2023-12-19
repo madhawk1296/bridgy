@@ -1,4 +1,4 @@
-import { ItemType } from "@/types/item"
+import { ItemType } from "@/types/tables"
 import { hoursPer } from "./time"
 
 export function calculateCraft(items: ItemType[], timeframe: string, legions: number, craft: string, replace: boolean, corruption: number) {

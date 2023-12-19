@@ -52,7 +52,7 @@ export default function Craft({ items, corruption }: { items: any, corruption: n
     }
 
     return (
-        <div className="w-full flex flex-col py-[80px] gap-4 items-center px-[10px]">
+        <div className="w-full flex flex-col pb-[80px] gap-4 items-center px-[10px]">
             <div className="w-full md:w-fit relative flex flex-col gap-6">
                 <Corruption corruption={displayCorruption} changeCorruption={changeCorruption} resetCorruption={resetCorruption} isDefault={isDefault} detail={`+${numeral(corruptionIncrease(displayCorruption)).format("0%")} Break Rate`} />
                 <div className="flex items-center gap-4">

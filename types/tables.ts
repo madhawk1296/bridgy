@@ -1,3 +1,4 @@
-import { Database } from "./supabase";
+import { Tables } from "./supabase";
 
-export type Tables<T extends keyof Database['public']['Tables']> = Database['public']['Tables'][T]['Row']
+export type ItemType = Tables<"items">
+export type BuildingType = Tables<"buildings">

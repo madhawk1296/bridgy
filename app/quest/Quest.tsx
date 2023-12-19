@@ -86,7 +86,7 @@ export default function Quest({ items, corruption, dropRates }: { items: any, co
     }
 
     return (
-        <div className="w-full flex flex-col py-[80px] gap-4 items-center px-[10px]">
+        <div className="w-full flex flex-col pb-[80px] gap-4 items-center px-[10px]">
             <div className="relative w-full md:w-fit flex flex-col gap-6">
                 <Corruption corruption={displayCorruption} changeCorruption={changeCorruption} resetCorruption={resetCorruption} isDefault={isDefault} detail={`${corruptionDropRate >= 0 ? "+" : ""}${numeral(corruptionDropRate).format("0%")} Drop Rate`} />
                 <div className="flex items-center gap-4">

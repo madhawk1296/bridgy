@@ -1,5 +1,9 @@
 import moment from "moment"
 
+export function secondsPer(timeframe: string) {
+    return hoursPer(timeframe) * 60 * 60
+} 
+
 export function hoursPer(timeframe: string) {
     if(timeframe == "daily") {
         return 24
