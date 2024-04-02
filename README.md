@@ -1,36 +1,11 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Bridgeworld Help - NFT Analytics for Crypto Gaming
 
-## Getting Started
+Welcome to Bridgeworld Help, the premier NFT analytics platform designed for crypto gamers. Utilizing the power of Next.js, our website provides in-depth analysis and tools to calculate the profitability of various crypto gaming actions. Whether you're a seasoned gamer or new to the world of crypto gaming, Bridgeworld Help offers valuable insights to enhance your gaming strategy and maximize your returns.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- **Profitability Calculations**: Get precise calculations on the profitability of your gaming actions, helping you make informed decisions.
+- **Real-Time Data**: Access up-to-the-minute data on NFT markets and gaming trends, ensuring you're always ahead of the game.
+- **User-Friendly Interface**: Navigate through complex data with ease, thanks to our intuitive and responsive design.
+- **Custom Analytics**: Tailor your analytics experience with customizable filters and parameters that match your gaming preferences.
+- **Comprehensive Game Coverage**: From Bridgeworld to the latest in blockchain gaming, explore analytics across a range of crypto games.
